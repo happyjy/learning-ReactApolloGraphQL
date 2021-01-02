@@ -74,9 +74,7 @@ export default () => {
       {loading && <Loading> Loading... </Loading>}
       <Movies>
         {!loading &&
-          data &&
-          data.ytsMovies &&
-          data.ytsMovies.map((m) => (
+          data?.ytsMovies?.map((m) => (
             <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
           ))}
       </Movies>

@@ -13,6 +13,11 @@ const GET_MOVIE = gql`
       medium_cover_image
       large_cover_image
     }
+    ytsSuggestions(id: $id) {
+      id
+      title
+      medium_cover_image
+    }
   }
 `;
 
@@ -30,6 +35,7 @@ const Container = styled.div`
 `;
 
 const Column = styled.div`
+  width: 50%;
   margin-left: 10px;
 `;
 const Title = styled.h1`
@@ -60,22 +66,22 @@ export default () => {
     variables: { id: +id },
   });
 
-  console.log({ loading, error, data });
-  if (loading) {
-    return 'loading';
-  }
-  if (data && data.ytsMovie) {
-    return (
-      <Container>
-        <Column>
-          <Title>{data.ytsMovie.title}</Title>
-          <Subtitle>
-            {data.ytsMovie.language} · {data.ytsMovie.rating}
-          </Subtitle>
-          <Description>{data.ytsMovie.description_intro}</Description>
-        </Column>
-        <Poster bg={data.ytsMovie.large_cover_image} />
-      </Container>
-    );
-  }
+  console.log('### getMovie > data: ', data);
+  return (
+    <Container>
+      <Column>
+        <Title>{loading ? 'Loading...' : data.ytsMovie.title}</Title>
+        {!loading && (
+          <>
+            <Subtitle>
+              {data?.ytsMovie?.language} · {data?.ytsMovie?.rating}
+            </Subtitle>
+            <Description>{data?.ytsMovie?.description_intro}</Description>
+          </>
+        )}
+      </Column>
+      <Poster bg={data?.ytsMovie?.large_cover_image} />
+    </Container>
+    // data.ytsSuggestions: [{id, title, medium_cover_image}]
+  );
 };
