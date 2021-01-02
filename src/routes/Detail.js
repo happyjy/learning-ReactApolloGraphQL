@@ -63,7 +63,7 @@ export default () => {
   const { id } = useParams();
   console.log('### Detail.js > id : ', useParams());
   const { loading, error, data } = useQuery(GET_MOVIE, {
-    variables: { id: +id },
+    variables: { id: parseInt(id) },
   });
 
   console.log('### getMovie > data: ', data);
