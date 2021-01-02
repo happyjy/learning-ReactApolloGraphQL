@@ -49,6 +49,18 @@ const Loading = styled.div`
   margin-top: 10px;
 `;
 
+const Movies = styled.div`
+  // # grid 사용으로 main list 가로 4 column의 card형 list 구현
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+  width: 60%;
+  // # Movies component가 Header위로 올라오도록
+  //   : An element with position: absolute; is positioned relative to the nearest positioned ancestor (instead of positioned relative to the viewport, like fixed):
+  position: relative;
+  top: -50px;
+`;
+
 export default () => {
   const { loading, error, data } = useQuery(GET_MOVIES);
   console.log(loading, error, data);
@@ -60,14 +72,14 @@ export default () => {
         <SubTitle>I love GraphQL</SubTitle>
       </Header>
       {loading && <Loading> Loading... </Loading>}
-      {!loading &&
-        data &&
-        data.ytsMovies &&
-        data.ytsMovies.map((m) => (
-          <Movie key={m.id} id={m.id}>
-            m.title
-          </Movie>
-        ))}
+      <Movies>
+        {!loading &&
+          data &&
+          data.ytsMovies &&
+          data.ytsMovies.map((m) => (
+            <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+          ))}
+      </Movies>
     </Container>
   );
 };
